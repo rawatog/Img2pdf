@@ -10,8 +10,11 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "node.js": "^0.0.1-security",
+    "package.json": "^2.0.1",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "uuid": "^9.x.x"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",

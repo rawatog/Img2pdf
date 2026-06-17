@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { v4 as uuidv4 } from "uuid";
 
 function App() {
   const [images, setImages] = useState([]);
@@ -8,13 +9,23 @@ function App() {
     const files = Array.from(e.target.files).map((file) => ({
       file,
       preview: URL.createObjectURL(file),
-      id: crypto.randomUUID(),
+      id: uuidv4(),
     }));
+
     setImages((prev) => [...prev, ...files]);
   };
 
   const removeImage = (id) => {
-    setImages(images.filter((img) => img.id !== id));
+    setImages((prev) => {
+      const updated = prev.filter((img) => {
+        if (img.id === id) {
+          URL.revokeObjectURL(img.preview); // cleanup
+          return false;
+        }
+        return true;
+      });
+      return updated;
+    });
   };
 
   const onDragStart = (e, index) => {
@@ -22,35 +33,53 @@ function App() {
   };
 
   const onDrop = (e, index) => {
-    const fromIndex = e.dataTransfer.getData("index");
-    const items = [...images];
-    const [moved] = items.splice(fromIndex, 1);
-    items.splice(index, 0, moved);
-    setImages(items);
+    e.preventDefault();
+    const fromIndex = Number(e.dataTransfer.getData("index"));
+
+    if (fromIndex === index) return;
+
+    setImages((prev) => {
+      const items = [...prev];
+      const [moved] = items.splice(fromIndex, 1);
+      items.splice(index, 0, moved);
+      return items;
+    });
   };
 
   const convertToPDF = async () => {
-    if (images.length === 0) return alert("No Image Selected");
+    if (images.length === 0) {
+      alert("No Image Selected");
+      return;
+    }
 
     const formData = new FormData();
     images.forEach((img) => formData.append("files", img.file));
 
-    setLoading(true);
+    try {
+      setLoading(true);
 
-    const res = await fetch("http://127.0.0.1:8000/img2pdf", {
-      method: "POST",
-      body: formData,
-    });
+      const res = await fetch("/img2pdf", {
+        method: "POST",
+        body: formData,
+      });
 
-    const blob = await res.blob();
-    const url = URL.createObjectURL(blob);
+      if (!res.ok) throw new Error("Failed to convert");
 
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "images.pdf";
-    a.click();
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
 
-    setLoading(false);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "images.pdf";
+      a.click();
+
+      URL.revokeObjectURL(url);
+    } catch (err) {
+      console.error(err);
+      alert("Error converting images");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -63,13 +92,19 @@ function App() {
 
       {/* MAIN */}
       <main className="flex flex-col items-center flex-1 px-10 py-8">
-        {/* Upload button */}
+        {/* Upload */}
         <label className="border-2 border-dashed border-gray-300 rounded-lg px-6 py-3 text-gray-600 cursor-pointer hover:bg-gray-200 mb-8">
           Select Images
-          <input type="file" multiple accept="image/*" onChange={handleFiles} hidden />
+          <input
+            type="file"
+            multiple
+            accept="image/*"
+            onChange={handleFiles}
+            hidden
+          />
         </label>
 
-        {/* Image Grid */}
+        {/* Grid */}
         <div className="grid grid-cols-4 gap-6 w-full max-w-6xl">
           {images.map((img, index) => (
             <div
@@ -80,13 +115,16 @@ function App() {
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => onDrop(e, index)}
             >
-              <img className="w-full h-44 object-cover" src={img.preview} alt="" />
+              <img
+                className="w-full h-44 object-cover"
+                src={img.preview}
+                alt=""
+              />
 
-              {/* Delete button */}
+              {/* Delete */}
               <button
                 onClick={() => removeImage(img.id)}
                 className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600"
-                title="Remove image"
               >
                 ×
               </button>
@@ -98,11 +136,11 @@ function App() {
           ))}
         </div>
 
-        {/* Convert button */}
+        {/* Convert */}
         <button
           onClick={convertToPDF}
           disabled={loading}
-          className="mt-10 px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 hover:cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+          className="mt-10 px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50"
         >
           {loading ? "Converting..." : "Download PDF"}
         </button>
