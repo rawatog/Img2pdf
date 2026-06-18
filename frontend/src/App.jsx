@@ -93,7 +93,7 @@ function App() {
       {/* MAIN */}
       <main className="flex flex-col items-center flex-1 px-10 py-8">
         {/* Upload */}
-        <label className="border-2 border-dashed border-gray-300 rounded-lg px-6 py-3 text-gray-600 cursor-pointer hover:bg-blue-800 mb-8">
+        <label className="border-2 border-dashed border-gray-300 rounded-lg px-6 py-3 text-gray-600 cursor-pointer hover:bg-blue-700 mb-8">
           Select Images
           <input
             type="file"
