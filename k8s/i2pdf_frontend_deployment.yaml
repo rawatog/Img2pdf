@@ -15,6 +15,6 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: mjrwt69/i2pdf_frontend:37cf81c3996aca597c1b5e42af61ac3b1c97b5b5
+          image: mjrwt69/i2pdf_frontend:0bb76af4e7b07d209bc40f87dd5f95b160a2203a
           ports:
             - containerPort: 80
