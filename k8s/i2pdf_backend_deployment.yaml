@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
         - name: backend
-          image: mjrwt69/i2pdf_backend
+          image: mjrwt69/i2pdf_backend:v1
           ports:
             - containerPort: 8000
