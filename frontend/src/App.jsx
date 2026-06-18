@@ -140,7 +140,7 @@ function App() {
         <button
           onClick={convertToPDF}
           disabled={loading}
-          className="mt-10 px-8 py-3 bg-gray-900 text-white rounded-lg hover:bg-gray-700 disabled:opacity-50"
+          className="mt-10 px-8 py-3 bg-gray-900 cursor-pointer text-white rounded-lg hover:bg-gray-700 disabled:opacity-50"
         >
           {loading ? "Converting..." : "Download PDF"}
         </button>
