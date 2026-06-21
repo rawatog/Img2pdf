@@ -1,0 +1,27 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4F46E5"></stop>
+      <stop offset="100%" stop-color="#7C3AED"></stop>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="512" height="512" rx="80" fill="url(#bg)"></rect>
+
+  <!-- Image Card -->
+  <rect x="80" y="90" width="170" height="210" rx="18" fill="#ffffff"></rect>
+  <circle cx="130" cy="145" r="18" fill="#FBBF24"></circle>
+  <path d="M95 255 L145 190 L180 225 L210 185 L235 255 Z" fill="#22C55E"></path>
+
+  <!-- Arrow -->
+  <path d="M275 190 H355 V160 L425 220 L355 280 V250 H275 Z" fill="#ffffff"></path>
+
+  <!-- PDF Document -->
+  <path d="M320 120 H410 L450 160 V390 H320 Z" fill="#ffffff"></path>
+  <path d="M410 120 V160 H450" fill="#E5E7EB"></path>
+
+  <!-- PDF Label -->
+  <rect x="340" y="250" width="90" height="42" rx="8" fill="#EF4444"></rect>
+  <text x="385" y="278" font-family="Arial, sans-serif" font-size="24" font-weight="700" text-anchor="middle" fill="#ffffff">PDF</text>
+</svg>
