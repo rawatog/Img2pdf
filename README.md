@@ -46,11 +46,8 @@ Built using **React (frontend)**, **FastAPI (backend)**, and fully containerized
 │   ├── public/
 │   └── Dockerfile
 │
-├── backend/               # FastAPI service
-│   ├── app/
-│   │   ├── main.py
-│   │   ├── routes/
-│   │   └── utils/
+├── backend/               # FastAPI service 
+│   │── main.py
 │   ├── requirements.txt
 │   └── Dockerfile
 │
