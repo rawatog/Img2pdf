@@ -39,7 +39,7 @@ Built using **React (frontend)**, **FastAPI (backend)**, and fully containerized
 ## 📁 Project Structure
 
 
-img2pdf/
+```img2pdf/
 │
 ├── frontend/               # React UI
 │   ├── src/
@@ -61,3 +61,8 @@ img2pdf/
 │   └── ingress.yaml
 │
 └── README.md
+```
+
+### ☸️ Kubernetes Deployment
+# Apply manifests
+kubectl apply -f k8s/
